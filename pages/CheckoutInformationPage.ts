@@ -1,10 +1,10 @@
 import { Page, Locator } from '@playwright/test';
 
 export class CheckoutInformationPage {
-    firstName: Locator;
-    lastName: Locator;
-    postalCode: Locator;
-    continueBtn: Locator;
+   readonly firstName: Locator;
+   readonly lastName: Locator;
+   readonly postalCode: Locator;
+   readonly continueBtn: Locator;
 
 
 
@@ -12,23 +12,35 @@ export class CheckoutInformationPage {
      this.firstName = page.locator('#first-name');
      this.lastName = page.locator('#last-name');
      this.postalCode = page.locator('#postal-code');
-     this.continueBtn= page.locator('#continue')
+     this.continueBtn = page.locator('#continue')
 
     }
 
-
-    async fillInformation(first: string , last: string , postal: string) {
-
+    async enterFirstName(first: string) {
         await this.firstName.fill(first)
+    }
+
+    async enterLastName(last: string) {
         await this.lastName.fill(last)
+    }
+
+     async enterPostalCode(postal: string) {
         await this.postalCode.fill(postal)
-
     }
 
-    async navigateToCheckoutOverview() {
-       await this.continueBtn.click();
+    
+    async fillInformation(first: string , last: string , postal: string) {
+       await this.enterFirstName(first)
+       await this.enterLastName(last)
+       await this.enterPostalCode(postal)
+    
+    
     }
 
+   async completeCheckout(first: string, last: string, postal: string) {
+    await this.fillInformation(first, last, postal);
+    await this.continueBtn.click();
+}
 
 
 }
