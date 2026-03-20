@@ -4,11 +4,13 @@ export class LoginPage {
    readonly username: Locator;
    readonly password: Locator;
    readonly loginBtn: Locator;
+   readonly errorMessage: Locator;
 
     constructor(private page: Page) {
         this.username = page.locator('#user-name');
         this.password = page.locator('#password');
         this.loginBtn = page.locator('#login-button');
+        this.errorMessage = page.locator('.error-message-container h3')
     }
 
     async enterUsername(user: string) {
@@ -24,5 +26,9 @@ export class LoginPage {
         await this.enterUsername(user)
         await this.enterPassword(pass)
         await this.loginBtn.click();
+    }
+
+    async getErrorMessage() {
+        return await this.errorMessage.textContent()
     }
 }

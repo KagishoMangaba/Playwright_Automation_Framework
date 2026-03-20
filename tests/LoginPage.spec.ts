@@ -16,12 +16,14 @@ test('Login works' , async ({page}) => {
 
     await page.goto('https://www.saucedemo.com/')
     await login.login('standard_user' , 'secret_sauce')
+    await expect(page).toHaveTitle("Swag Labs")
     await inventory.addItemToCart('Sauce Labs Bolt T-Shirt')
     await inventory.goToCart();
     expect(await cartPage.verifyProductExists('Sauce Labs Bolt T-Shirt')).toBe(true);
     await cartPage.proceedToCheckout();
     await checkoutInfo.completeCheckout('kagisho' , 'prince' , '12345');
     expect(await checkoutOverview.hasItem('Sauce Labs Bolt T-Shirt')).toBe(true);
+
 
 
 
