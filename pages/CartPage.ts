@@ -2,9 +2,9 @@ import { Page, Locator } from '@playwright/test';
 
 export class CartPage {
     // Locators
-    cartTitle: Locator;
-    cartItems: Locator;
-    checkoutButton: Locator;
+   readonly cartTitle: Locator;
+   readonly cartItems: Locator;
+   readonly checkoutButton: Locator;
 
     constructor(private page: Page) {
         this.cartTitle = page.locator('.title'); // usually "Your Cart"
@@ -20,7 +20,7 @@ export class CartPage {
     // Remove an item by name
     async removeItem(itemName: string) {
         const item = this.cartItems.filter({ hasText: itemName });
-        const removeBtn = item.locator('button'); // remove button inside this item
+        const removeBtn = item.locator('.btn.btn_secondary.btn_small.cart_button'); // remove button inside this item
         await removeBtn.click();
     }
 

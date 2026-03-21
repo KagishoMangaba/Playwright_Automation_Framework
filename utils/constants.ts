@@ -6,7 +6,7 @@ export const USERS = {
 } as const;
 
 export const PRODUCTS = {
-  backpack:   'Sauce Labs Backpack',
+  backpack:   'Sauce Labs Backpack', 
   bikeLight:  'Sauce Labs Bike Light',
   boltShirt:  'Sauce Labs Bolt T-Shirt',
   fleeceJacket: 'Sauce Labs Fleece Jacket',

@@ -22,6 +22,7 @@ await page.goto('https://www.saucedemo.com/')
 });
 
 
+
 test('the users adds a product to the cart and the prodcuts found inside the cart do not match' , async({page}) => {
 
     
@@ -38,3 +39,21 @@ expect(await cartPage.verifyProductExists(PRODUCTS.boltShirt)).toBe(false);
 
 });
 
+
+
+
+test('The users attempts to add a product to cart and then tries to remove the product form the cart' , async ({page}) => {
+
+const login = new LoginPage(page)
+const inventory = new InventoryPage(page)
+const cartPage = new CartPage(page)   
+
+
+await page.goto('https://www.saucedemo.com/')
+    await login.login(USERS.standard.username , USERS.standard.password)
+    await expect(page).toHaveTitle("Swag Labs")
+    await inventory.addItemToCart(PRODUCTS.backpack)
+    await inventory.goToCart();
+    await cartPage.removeItem(PRODUCTS.backpack);
+
+});
