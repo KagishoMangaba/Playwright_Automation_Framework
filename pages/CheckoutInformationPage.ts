@@ -5,6 +5,7 @@ export class CheckoutInformationPage {
    readonly lastName: Locator;
    readonly postalCode: Locator;
    readonly continueBtn: Locator;
+   readonly informationError: Locator;
 
 
 
@@ -13,6 +14,8 @@ export class CheckoutInformationPage {
      this.lastName = page.locator('#last-name');
      this.postalCode = page.locator('#postal-code');
      this.continueBtn = page.locator('#continue')
+     this.informationError = page.locator('.error-message-container.error')
+
 
     }
 
@@ -40,6 +43,10 @@ export class CheckoutInformationPage {
    async completeCheckout(first: string, last: string, postal: string) {
     await this.fillInformation(first, last, postal);
     await this.continueBtn.click();
+}
+
+async getInfoErrorMessage() {
+    return await this.informationError.textContent();
 }
 
 

@@ -10,6 +10,7 @@ export class CartPage {
         this.cartTitle = page.locator('.title'); // usually "Your Cart"
         this.cartItems = page.locator('.cart_item'); // all items in cart
         this.checkoutButton = page.locator('#checkout'); // checkout button
+        
     }
 
     // Get number of items in cart

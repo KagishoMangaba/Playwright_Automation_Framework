@@ -8,15 +8,15 @@ export class LoginPage {
    readonly openMenu: Locator;
    readonly logoutBtn: Locator;
 
+
+
     constructor(private page: Page) {
-        this.username = page.locator('#user-name');
-        this.password = page.locator('#password');
-        this.loginBtn = page.locator('#login-button');
-        this.errorMessage = page.locator('.error-message-container h3')
-        this.openMenu = page.locator("//button[@id='react-burger-menu-btn']")
-        this.logoutBtn = page.locator("a[id='logout_sidebar_link']")
-
-
+    this.username = page.locator('#user-name');
+    this.password = page.locator('#password');
+    this.loginBtn = page.locator('#login-button');
+    this.errorMessage = page.locator('.error-message-container h3')
+    this.openMenu = page.locator("//button[@id='react-burger-menu-btn']")
+    this.logoutBtn = page.locator("a[id='logout_sidebar_link']")
 
     
     }

@@ -55,5 +55,31 @@ await page.goto('https://www.saucedemo.com/')
     await inventory.addItemToCart(PRODUCTS.backpack)
     await inventory.goToCart();
     await cartPage.removeItem(PRODUCTS.backpack);
+    expect(await cartPage.verifyProductExists(PRODUCTS.backpack)).toBe(false);
+
+});
+
+
+test('The user attempts to add multiple Items to the cart ' , async ({page}) => {
+
+const login = new LoginPage(page)
+const inventory = new InventoryPage(page)
+const cartPage = new CartPage(page)   
+
+
+await page.goto('https://www.saucedemo.com/')
+    await login.login(USERS.standard.username , USERS.standard.password)
+    await expect(page).toHaveTitle("Swag Labs")
+    await inventory.addItemToCart(PRODUCTS.backpack)
+    await inventory.addItemToCart(PRODUCTS.boltShirt)
+    await inventory.addItemToCart(PRODUCTS.fleeceJacket)
+    await inventory.addItemToCart(PRODUCTS.bikeLight)
+    await inventory.goToCart();
+
+    expect(await cartPage.verifyProductExists(PRODUCTS.backpack)).toBe(true)
+    expect(await cartPage.verifyProductExists(PRODUCTS.boltShirt)).toBe(true)
+    expect(await cartPage.verifyProductExists(PRODUCTS.fleeceJacket)).toBe(true)
+    expect(await cartPage.verifyProductExists(PRODUCTS.bikeLight)).toBe(true)
+
 
 });
