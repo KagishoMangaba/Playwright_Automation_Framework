@@ -4,9 +4,9 @@ export const USERS = {
   problem:   { username: 'problem_user',          password: 'secret_sauce' },
   glitch:    { username: 'performance_glitch_user', password: 'secret_sauce' },
 } as const;
-
+ 
 export const PRODUCTS = {
-  backpack:   'Sauce Labs Backpack', 
+  backpack:   'Sauce Labs Backpack',
   bikeLight:  'Sauce Labs Bike Light',
   boltShirt:  'Sauce Labs Bolt T-Shirt',
   fleeceJacket: 'Sauce Labs Fleece Jacket',
@@ -14,9 +14,18 @@ export const PRODUCTS = {
   redShirt:   'Test.allTheThings() T-Shirt (Red)',
 } as const;
 
+
+export const USER_CHECKOUT =  {
+
+    firstname: 'Kagisho',
+    lastname: 'Mangbaba',
+    postalCode: '1618'
+}as const;
+ 
 export const URLS = {
   login:     '/',
   inventory: '/inventory.html',
   cart:      '/cart.html',
   checkout:  '/checkout-step-one.html',
 } as const;
+ 

@@ -1,7 +1,7 @@
 import {test , expect } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
 import { InventoryPage } from '../pages/InventoryPage';
-import { USERS } from './utils/constants';
+import { USERS } from '../utils/constants';
 
 
 test('Login works' , async ({page}) => {

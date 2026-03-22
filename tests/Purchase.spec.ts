@@ -4,7 +4,7 @@ import { InventoryPage } from '../pages/InventoryPage';
 import { CartPage } from '../pages/CartPage';
 import { CheckoutInformationPage } from '../pages/CheckoutInformationPage';
 import { CheckoutOverviewPage } from '../pages/CheckoutOverviewPage';
-import { PRODUCTS, USER_CHECKOUT, USERS } from './utils/constants';
+import { PRODUCTS, USER_CHECKOUT, USERS } from '../utils/constants';
 import { ConfirmationPage } from '../pages/ConfirmationPage';
 
 

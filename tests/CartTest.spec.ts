@@ -2,7 +2,7 @@ import {test , expect } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
 import { InventoryPage } from '../pages/InventoryPage';
 import { CartPage } from '../pages/CartPage';
-import { PRODUCTS, USERS } from './utils/constants';
+import { PRODUCTS, USERS } from '../utils/constants';
 
 
 test('The users attempts to add a product to cart and verify that product in cart matches with the from inventory' , async ({page}) => {
