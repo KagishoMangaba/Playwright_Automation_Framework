@@ -1,82 +1,60 @@
-import {test , expect } from '@playwright/test';
-import { LoginPage } from '../pages/LoginPage';
-import { InventoryPage } from '../pages/InventoryPage';
+import { test, expect } from '../utils/fixtures';
 import { USERS } from '../utils/constants';
+import { LoginPage } from '../pages/LoginPage';
 
 
-test('Login works' , async ({page}) => {
+test.beforeEach(async ({page,  loginPage }) => {
 
-    const loginPage = new LoginPage(page)
-    const inventoryPage = new InventoryPage(page);
-    await page.goto('https://www.saucedemo.com/')
-    await loginPage.login(USERS.standard.username , USERS.standard.password)
-    await expect(page).toHaveTitle("Swag Labs")
-    await expect(page).toHaveURL(/inventory/)
-
+    await page.goto('https://www.saucedemo.com/');
 });
 
 
-test('Login should fail when using incorrect credentials and it should display the correct error message' , async ({page}) => {
+test('Login works', async ({ loginPage, page }) => {
+    await loginPage.login(USERS.standard.username, USERS.standard.password);
+    await expect(page).toHaveTitle("Swag Labs");
+    await expect(page).toHaveURL(/inventory/);
+});
 
-    const loginPage = new LoginPage(page)
-    const inventoryPage = new InventoryPage(page)
 
-    await page.goto('https://www.saucedemo.com/')
-    await loginPage.login('Kagisho' , 'mangaba')
+
+test('Login fails with incorrect credentials', async ({loginPage, page}) => {
+    await loginPage.login('Kagisho', 'mangaba');
     await expect(loginPage.errorMessage).toBeVisible();
-
 });
 
 
 
-test('the user attempts to login with only vald username and empty field for password' , async ({page}) => {
-
-const loginPage = new LoginPage(page)
-await page.goto('https://www.saucedemo.com/')
-await loginPage.login(USERS.standard.username , "")
-await expect(loginPage.errorMessage).toHaveText('Epic sadface: Password is required')
-
+test('Login fails with empty password', async ({loginPage, page}) => {
+    await loginPage.login(USERS.standard.username, "");
+    await expect(loginPage.errorMessage)
+        .toHaveText('Epic sadface: Password is required');
 });
 
 
 
-test('The user leaves both the username and passoword field open' , async ({page}) => {
-    const loginPage = new LoginPage(page)
-
-    await page.goto('https://www.saucedemo.com/')
-    await loginPage.login('' , '')
-    await expect(loginPage.errorMessage).toBeVisible
-
-
+test('Login fails when both fields are empty', async ({loginPage, page}) => {
+    await loginPage.login('', '');
+    await expect(loginPage.errorMessage).toBeVisible(); 
 });
 
 
 
- test('The user attempts to login into their account leaving the username field empty and inputing password' , async ({page}) => {
-    const loginPage = new LoginPage(page)
-
-    await page.goto('https://www.saucedemo.com/')
-    await loginPage.login('' , USERS.standard.password)
-    await expect(loginPage.errorMessage).toBeVisible
-
-
+test('Login fails when username is empty', async ({loginPage, page}) => {
+    await loginPage.login('', USERS.standard.password);
+    await expect(loginPage.errorMessage).toBeVisible(); 
 });
 
 
 
-test('A logged in user attempts to log out of their existing account' , async ({page}) => {
-
-    const loginPage = new LoginPage(page)
-    const inventoryPage = new InventoryPage(page);
-
-    await page.goto('https://www.saucedemo.com/')
-    await loginPage.login(USERS.standard.username , USERS.standard.password)
-    await expect(page).toHaveTitle("Swag Labs")
-    await expect(page).toHaveURL(/inventory/)
+test('Logged-in user can log out', async ({ loginPage, page}) => {
+    await loginPage.login(USERS.standard.username, USERS.standard.password);
+    await expect(page).toHaveURL(/inventory/);
     await loginPage.logout();
-    
-
 });
 
 
-
+test('Locked out user Attempts to log into their account ' , async ({loginPage, page}) => {
+    await loginPage.login(USERS.locked.username , USERS.standard.password);
+    await expect(loginPage.errorMessage).toBeVisible(); 
+    await expect(loginPage.errorMessage).toHaveText('Epic sadface: Sorry, this user has been locked out.')
+});

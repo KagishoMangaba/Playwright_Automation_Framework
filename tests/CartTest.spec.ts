@@ -1,85 +1,85 @@
-import {test , expect } from '@playwright/test';
-import { LoginPage } from '../pages/LoginPage';
-import { InventoryPage } from '../pages/InventoryPage';
-import { CartPage } from '../pages/CartPage';
-import { PRODUCTS, USERS } from '../utils/constants';
+import { test, expect } from '../utils/fixtures';
+import { USERS, PRODUCTS, USER_CHECKOUT } from '../utils/constants';
 
-
-test('The users attempts to add a product to cart and verify that product in cart matches with the from inventory' , async ({page}) => {
-
-const login = new LoginPage(page)
-const inventory = new InventoryPage(page)
-const cartPage = new CartPage(page)   
-
-
-await page.goto('https://www.saucedemo.com/')
-    await login.login(USERS.standard.username , USERS.standard.password)
-    await expect(page).toHaveTitle("Swag Labs")
-    await inventory.addItemToCart(PRODUCTS.backpack)
-    await inventory.goToCart();
-    expect(await cartPage.verifyProductExists(PRODUCTS.backpack)).toBe(true);
-
+test.beforeEach(async ({page,  loginPage }) => {
+    await page.goto('https://www.saucedemo.com/');
 });
 
 
 
-test('the users adds a product to the cart and the prodcuts found inside the cart do not match' , async({page}) => {
+
+test('User adds a product to cart and verifies it', async ({ page, loginPage, inventoryPage, cartPage }) => {
+
+
+    await loginPage.login(USERS.standard.username, USERS.standard.password);
+    await expect(page).toHaveTitle("Swag Labs");
+    await inventoryPage.addItemToCart(PRODUCTS.backpack);
+    await inventoryPage.goToCart();
+    expect(await cartPage.verifyProductExists(PRODUCTS.backpack)).toBeTruthy();
+});
+
+
+test('user adds backpack but cart should not contain a different product', async ({ loginPage, inventoryPage, cartPage }) => {
+
+    await loginPage.login(USERS.standard.username, USERS.standard.password)
+
+    await inventoryPage.addItemToCart(PRODUCTS.backpack)
+    await inventoryPage.goToCart();
+
+    // Positive assertion
+    const backpackExists = await cartPage.verifyProductExists(PRODUCTS.backpack);
+    expect(backpackExists).toBe(true);
+
+    // Negative assertion
+    const boltShirtExists = await cartPage.verifyProductExists(PRODUCTS.boltShirt);
+    expect(boltShirtExists).toBe(false);
+});
+
+
+test('The users attempts to add a product to cart and then tries to remove the product form the cart' , async ({page, loginPage, inventoryPage, cartPage}) => {
 
     
-const login = new LoginPage(page)
-const inventory = new InventoryPage(page)
-const cartPage = new CartPage(page)   
- 
-await page.goto('https://www.saucedemo.com/')
-await login.login(USERS.standard.username , USERS.standard.password)
-await expect(page).toHaveTitle("Swag Labs")
-await inventory.addItemToCart(PRODUCTS.backpack)
-await inventory.goToCart();
-expect(await cartPage.verifyProductExists(PRODUCTS.boltShirt)).toBe(false);
 
-});
-
-
-
-
-test('The users attempts to add a product to cart and then tries to remove the product form the cart' , async ({page}) => {
-
-const login = new LoginPage(page)
-const inventory = new InventoryPage(page)
-const cartPage = new CartPage(page)   
-
-
-await page.goto('https://www.saucedemo.com/')
-    await login.login(USERS.standard.username , USERS.standard.password)
+    await loginPage.login(USERS.standard.username , USERS.standard.password)
     await expect(page).toHaveTitle("Swag Labs")
-    await inventory.addItemToCart(PRODUCTS.backpack)
-    await inventory.goToCart();
+    await inventoryPage.addItemToCart(PRODUCTS.backpack)
+    await inventoryPage.goToCart();
     await cartPage.removeItem(PRODUCTS.backpack);
     expect(await cartPage.verifyProductExists(PRODUCTS.backpack)).toBe(false);
 
 });
 
 
-test('The user attempts to add multiple Items to the cart ' , async ({page}) => {
-
-const login = new LoginPage(page)
-const inventory = new InventoryPage(page)
-const cartPage = new CartPage(page)   
+test('The user attempts to add multiple Items to the cart ' , async ({page, loginPage, inventoryPage, cartPage}) => {
 
 
-await page.goto('https://www.saucedemo.com/')
-    await login.login(USERS.standard.username , USERS.standard.password)
+
+
+    await loginPage.login(USERS.standard.username , USERS.standard.password)
     await expect(page).toHaveTitle("Swag Labs")
-    await inventory.addItemToCart(PRODUCTS.backpack)
-    await inventory.addItemToCart(PRODUCTS.boltShirt)
-    await inventory.addItemToCart(PRODUCTS.fleeceJacket)
-    await inventory.addItemToCart(PRODUCTS.bikeLight)
-    await inventory.goToCart();
+    await inventoryPage.addItemToCart(PRODUCTS.backpack)
+    await inventoryPage.addItemToCart(PRODUCTS.boltShirt)
+    await inventoryPage.addItemToCart(PRODUCTS.fleeceJacket)
+    await inventoryPage.addItemToCart(PRODUCTS.bikeLight)
+    await inventoryPage.goToCart();
 
     expect(await cartPage.verifyProductExists(PRODUCTS.backpack)).toBe(true)
     expect(await cartPage.verifyProductExists(PRODUCTS.boltShirt)).toBe(true)
     expect(await cartPage.verifyProductExists(PRODUCTS.fleeceJacket)).toBe(true)
     expect(await cartPage.verifyProductExists(PRODUCTS.bikeLight)).toBe(true)
 
+
+});
+
+test('The user attempts to complete an order without putting anything in cart' , async ({page, loginPage, inventoryPage, cartPage , checkoutInformationPage , checkoutOverviewPage , confirmationPage }) => {
+    await loginPage.login(USERS.standard.username , USERS.standard.password)
+    await expect(page).toHaveTitle("Swag Labs")
+    await inventoryPage.goToCart();
+    await cartPage.proceedToCheckout();
+    await checkoutInformationPage.completeCheckout(USER_CHECKOUT.firstname , USER_CHECKOUT.lastname , USER_CHECKOUT.postalCode);
+    await checkoutOverviewPage.clickFinish();
+    await expect(confirmationPage.confirmationMessage).toBeVisible
+    await expect(confirmationPage.confirmationMessage).toHaveText('Thank you for your order!')
+    //This test is not stable or reliable, will have better validations
 
 });

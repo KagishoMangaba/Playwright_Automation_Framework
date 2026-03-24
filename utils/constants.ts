@@ -21,10 +21,15 @@ export const USER_CHECKOUT =  {
     lastname: 'Mangbaba',
     postalCode: '1618'
 }as const;
+
+
+export const NAVIGATE = {
+  url: 'https://www.saucedemo.com/'
+}
  
 export const URLS = {
   login:     '/',
-  inventory: '/inventory.html',
+  inventory: '/inventory/',
   cart:      '/cart.html',
   checkout:  '/checkout-step-one.html',
 } as const;

@@ -10,10 +10,10 @@ export class CheckoutInformationPage {
 
 
      constructor(private page: Page) {
-     this.firstName = page.locator('#first-name');
-     this.lastName = page.locator('#last-name');
-     this.postalCode = page.locator('#postal-code');
-     this.continueBtn = page.locator('#continue')
+     this.firstName        = page.locator('#first-name');
+     this.lastName         = page.locator('#last-name');
+     this.postalCode       = page.locator('#postal-code');
+     this.continueBtn      = page.locator('#continue')
      this.informationError = page.locator('.error-message-container.error')
 
 
