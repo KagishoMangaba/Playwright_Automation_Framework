@@ -19,7 +19,7 @@ A professional end-to-end automation testing framework for [SauceDemo](https://w
 | Test Runner | Playwright Test |
 | Build Tool | npm / Node.js |
 | Design Pattern | Page Object Model (POM) |
-| Reporting | Playwright HTML Reports |
+| Reporting | Allure Reports |
 | Logging | Built-in Playwright tracing & console logs |
 | CI/CD | Jenkins |
 
