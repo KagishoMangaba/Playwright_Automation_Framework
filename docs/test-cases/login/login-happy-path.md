@@ -17,3 +17,8 @@
 - User is successfully logged in
 - User is redirected to the inventory page
 - Inventory items are visible
+
+  <img width="1918" height="910" alt="image" src="https://github.com/user-attachments/assets/d5a91cde-64ee-4a0c-9c9f-828efabab8d3" />
+
+  <img width="1902" height="907" alt="image" src="https://github.com/user-attachments/assets/28359176-2148-4286-89e7-ba191e379980" />
+
