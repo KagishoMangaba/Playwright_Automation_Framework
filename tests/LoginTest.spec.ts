@@ -1,11 +1,11 @@
 import { test, expect } from '../utils/fixtures';
-import { USERS } from '../utils/constants';
+import { NAVIGATE, USERS } from '../utils/constants';
 import { LoginPage } from '../pages/LoginPage';
 
 
 test.beforeEach(async ({page,  loginPage }) => {
 
-    await page.goto('https://www.saucedemo.com/');
+    await page.goto(NAVIGATE.url);
 });
 
 

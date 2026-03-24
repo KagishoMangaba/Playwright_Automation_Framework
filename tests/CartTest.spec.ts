@@ -1,8 +1,8 @@
 import { test, expect } from '../utils/fixtures';
-import { USERS, PRODUCTS, USER_CHECKOUT } from '../utils/constants';
+import { USERS, PRODUCTS, USER_CHECKOUT, NAVIGATE } from '../utils/constants';
 
 test.beforeEach(async ({page,  loginPage }) => {
-    await page.goto('https://www.saucedemo.com/');
+    await page.goto(NAVIGATE.url);
 });
 
 
