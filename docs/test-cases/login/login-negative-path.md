@@ -19,6 +19,11 @@
 **Actual Result:**
 - Error message displayed: "Epic sadface: Username and password do not match any user in this service"
 
+<img width="1918" height="870" alt="image" src="https://github.com/user-attachments/assets/6c0bcbda-0d36-48cd-b36b-e78e053936f3" />
+
+
+
+
 
 
 
@@ -43,3 +48,5 @@
 
 **Actual Result:**
 - Error message displayed: "Epic sadface: Sorry, this user has been locked out."
+
+<img width="1918" height="868" alt="image" src="https://github.com/user-attachments/assets/335ea219-0e48-44ae-9d7b-c9a932568bd0" />
