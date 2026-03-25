@@ -67,4 +67,68 @@
 **Status:**
 - Pass
 
+T
 
+
+## C-LOGIN-7: Verify error message when both input fields are empty
+
+**Preconditions:**
+
+- User is on the login page
+
+
+- Leave username field empty
+- Leave password field empty
+- Click Login
+
+**Test Data:**
+
+- Username: ""
+- Password: ""
+
+**Expected Result:**
+
+- Login should be rejected
+- User remains on the login page
+- Error message should be displayed:
+- Username and password required 
+
+**Actual Results:**
+- Error Message Displayed: Epic sadface: Username is required
+
+**status**
+- failed
+
+
+
+## TC-LOGIN-8: Verify error when input contains only whitespace (spaces/tabs)
+
+**Preconditions:**
+
+- User is on the login page
+
+**Test Steps:**
+
+- Enter username: " " (spaces or tabs)
+- Enter password: " " (spaces or tabs)
+- Click Login
+
+**Test Data:**
+
+- Username: " " / "\t\t"
+- Password: " " / "\t\t"
+
+**Expected Result:**
+
+- Login should be rejected
+- User remains on the login page
+- Error message should be displayed:
+- Epic sadface: Username is required
+- (or system trims input and treats it as empty)
+
+**Actual Result:**
+
+- Epic sadface: Username and password do not match any user in this service
+
+**Status:**
+- FAIL
