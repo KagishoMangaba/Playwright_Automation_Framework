@@ -1,9 +1,6 @@
 import { test, expect } from '../utils/fixtures';
 import { USERS, PRODUCTS, USER_CHECKOUT, NAVIGATE } from '../utils/constants';
-
-test.beforeEach(async ({page,  loginPage }) => {
-    await page.goto(NAVIGATE.url);
-});
+import {f}
 
 
 

@@ -1,10 +1,6 @@
 import { test, expect } from '../utils/fixtures';
 import { USERS, PRODUCTS, USER_CHECKOUT, NAVIGATE } from '../utils/constants';
 
-test.beforeEach(async ({page,  loginPage }) => {
-    await page.goto(NAVIGATE.url);
-});
-
 
 
 test('Full End to end purchase' , async ({page, loginPage, inventoryPage, cartPage , checkoutInformationPage , checkoutOverviewPage , confirmationPage }) => {
@@ -95,8 +91,8 @@ test('The user attempts to complete an order leaving Postal code field open' , a
     await cartPage.proceedToCheckout();
     await checkoutInformationPage.completeCheckout(USER_CHECKOUT.firstname , USER_CHECKOUT.lastname , '');
     await expect(checkoutInformationPage.informationError).toBeVisible
-    await expect(checkoutInformationPage.informationError).toHaveText('Erro');
-    //Error: Postal Code is required
+    await expect(checkoutInformationPage.informationError).toHaveText('Error: Postal Code is required');
+    //
 
 });
 

@@ -1,12 +1,9 @@
 import { test, expect } from '../utils/fixtures';
 import { NAVIGATE, USERS } from '../utils/constants';
 import { LoginPage } from '../pages/LoginPage';
+import {faker} from '@faker-js/faker'
 
 
-test.beforeEach(async ({page,  loginPage }) => {
-
-    await page.goto(NAVIGATE.url);
-});
 
 
 test('TC-LOGIN-001: Verify user can log in with valid credentials', async ({ loginPage, page }) => {
@@ -18,7 +15,11 @@ test('TC-LOGIN-001: Verify user can log in with valid credentials', async ({ log
 
 
 test('TC-LOGIN-002: Verify user cannot log in with invalid credentials', async ({loginPage, page}) => {
-    await loginPage.login('Kagisho', 'mangaba');
+
+    const username = faker.internet.username();
+    const password = faker.internet.password();
+
+    await loginPage.login(username, password);
     await expect(loginPage.errorMessage).toBeVisible();
 });
 
