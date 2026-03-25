@@ -25,4 +25,13 @@ export const test = base.extend<Pages>({
 });
 
 
+test.afterEach(async ({ page }, testInfo) => {
+    if (testInfo.status !== testInfo.expectedStatus) {
+        await testInfo.attach('Failure Screenshot', {
+            body: await page.screenshot(),
+            contentType: 'image/png',
+        });
+    }
+});
+
 export { expect };

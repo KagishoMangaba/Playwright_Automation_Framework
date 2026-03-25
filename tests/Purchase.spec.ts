@@ -95,7 +95,8 @@ test('The user attempts to complete an order leaving Postal code field open' , a
     await cartPage.proceedToCheckout();
     await checkoutInformationPage.completeCheckout(USER_CHECKOUT.firstname , USER_CHECKOUT.lastname , '');
     await expect(checkoutInformationPage.informationError).toBeVisible
-    await expect(checkoutInformationPage.informationError).toHaveText('Error: Postal Code is required');
+    await expect(checkoutInformationPage.informationError).toHaveText('Erro');
+    //Error: Postal Code is required
 
 });
 

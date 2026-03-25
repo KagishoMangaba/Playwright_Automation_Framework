@@ -58,6 +58,11 @@ test('LOGIN-7: Verify error message when both input fields are empty', async ({l
 });
 
 
+test('TC-LOGIN-8: Verify error when input contains only whitespace (spaces/tabs)', async ({loginPage, page}) => {
+    await loginPage.login('   ', '    ');
+    await expect(loginPage.errorMessage).toBeVisible(); 
+});
+
 
 
 
