@@ -11,3 +11,4 @@ node_modules/
 # Allure reports
 allure-report/
 allure-results/
+.env.qa/

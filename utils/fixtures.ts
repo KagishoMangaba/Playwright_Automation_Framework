@@ -5,7 +5,7 @@ import { CartPage } from '../pages/CartPage';
 import { ConfirmationPage } from '../pages/ConfirmationPage';
 import { CheckoutInformationPage } from '../pages/CheckoutInformationPage';
 import { CheckoutOverviewPage } from '../pages/CheckoutOverviewPage';
-import { NAVIGATE } from './constants';
+
 
 type Pages = {
     loginPage: LoginPage;
@@ -33,10 +33,6 @@ test.afterEach(async ({ page }, testInfo) => {
             contentType: 'image/png',
         });
     }
-});
-
-test.beforeEach(async ({page,  loginPage }) => {
-    await page.goto(NAVIGATE.url);
 });
 
 
