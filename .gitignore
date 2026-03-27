@@ -1,15 +1,17 @@
-
-# Playwright
-
+# Node modules
 node_modules/
+
+# Playwright test results and reports
 /test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
-/playwright/.auth/
+playwright-report/
+blob-report/
+playwright/.cache/
+playwright/.auth/
 
 # Allure reports
 allure-report/
 allure-results/
-.env.qa
-.env.dev
+
+# Environment files
+.env
+.env.*
