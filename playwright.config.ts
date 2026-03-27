@@ -1,10 +1,8 @@
-import dotenv from 'dotenv';
 
-const env = process.env.ENV || 'qa';
-dotenv.config({ path: `.env.${env}` });
 
 import { defineConfig, devices } from '@playwright/test';
-import { ENV } from './config/env';
+import { ENV } from './config/env';  // dotenv already loaded inside env.ts
+
 
 export default defineConfig({
   testDir: './tests',
