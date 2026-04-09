@@ -75,7 +75,7 @@ saucedemo-playwright/
 **1. Clone the repository:**
 
 ```bash
-git clone https://github.com/your-username/saucedemo-playwright.git
+git clone https://github.com/KagishoMangaba/Playwright_Automation_Framework.git
 cd saucedemo-playwright
 ```
 
