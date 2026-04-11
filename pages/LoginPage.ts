@@ -1,12 +1,12 @@
-import { Page, Locator } from '@playwright/test';
+import { Page, Locator, expect } from '@playwright/test';
 
 export class LoginPage {
-   readonly username: Locator;
-   readonly password: Locator;
-   readonly loginBtn: Locator;
-   readonly errorMessage: Locator;
-   readonly openMenu: Locator;
-   readonly logoutBtn: Locator;
+   private readonly username: Locator;
+   private readonly password: Locator;
+   private readonly loginBtn: Locator;
+   private readonly errorMessage: Locator;
+   private readonly openMenu: Locator;
+   private readonly logoutBtn: Locator;
 
 
 
@@ -38,9 +38,9 @@ export class LoginPage {
 
     
 
-    async getErrorMessage() {
-        return await this.errorMessage.textContent()
-    }
+   getErrorMessage() {
+  return this.errorMessage;
+}
 
 
     async logout() {
@@ -50,6 +50,17 @@ export class LoginPage {
 
     }
 
+    async assertErrorMessageVisible(): Promise<void> {
+    await expect(this.errorMessage).toBeVisible();
+  }
+
+
+  async assertErrorMessageText(expectedText: string): Promise<void> {
+    await expect(this.errorMessage).toHaveText(expectedText);
+  }
+
+
+    
 
 
 

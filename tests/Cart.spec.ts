@@ -1,69 +1,56 @@
-import { test, expect } from '../utils/fixtures';
+import { test, expect } from '../fixtures/testFixtures';
 import { ENV } from '../config/env';
 import { PRODUCTS } from '../test-data/products';
 import { USER_CHECKOUT } from '../test-data/users';
 import { URLS } from '../config/urls';
+import { LoginPage } from '../pages/LoginPage';
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page, loginPage }) => {
   await page.goto(ENV.BASE_URL);
+  await loginPage.login(ENV.USERS.STANDARD.username, ENV.USERS.STANDARD.password);
 });
 
 
 
-test('User adds a product to cart and verifies it', async ({ page, loginPage, inventoryPage, cartPage }) => {
-  await loginPage.login(ENV.USERS.STANDARD.username, ENV.USERS.STANDARD.password);
-
-  await expect(page).toHaveTitle('Swag Labs');
-  await inventoryPage.addItemToCart(PRODUCTS.BACKPACK);
+test('User adds a product to cart and verifies it', async ({ page, inventoryPage, cartPage }) => {
+  await inventoryPage.addItemToCart(PRODUCTS.backpack);
   await inventoryPage.goToCart();
 
-  await expect(page).toHaveURL(URLS.CART);
-  await expect(cartPage.verifyProductExists(PRODUCTS.BACKPACK)).resolves.toBe(true);
+  await expect(page).toHaveURL(URLS.cart);
+  await expect(cartPage.verifyProductExists(PRODUCTS.backpack)).resolves.toBe(true);
 });
 
 
 
-test('User adds backpack but cart should not contain a different product', async ({ page, loginPage, inventoryPage, cartPage }) => {
-  await loginPage.login(ENV.USERS.STANDARD.username, ENV.USERS.STANDARD.password);
-
-  await inventoryPage.addItemToCart(PRODUCTS.BACKPACK);
+test('Cart only contains the product that was added', async ({ page, inventoryPage, cartPage }) => {
+  await inventoryPage.addItemToCart(PRODUCTS.backpack);
   await inventoryPage.goToCart();
 
-  await expect(page).toHaveURL(URLS.CART);
-
-  await expect(cartPage.verifyProductExists(PRODUCTS.BACKPACK)).resolves.toBe(true);
-  await expect(cartPage.verifyProductExists(PRODUCTS.BOLT_SHIRT)).resolves.toBe(false);
+  await expect(page).toHaveURL(URLS.cart);
+  await expect(cartPage.verifyProductExists(PRODUCTS.backpack)).resolves.toBe(true);
+  await expect(cartPage.verifyProductExists(PRODUCTS.bolt_shirt)).resolves.toBe(false);
 });
 
 
 
-test('User removes a product from the cart', async ({ page, loginPage, inventoryPage, cartPage }) => {
-  await loginPage.login(ENV.USERS.STANDARD.username, ENV.USERS.STANDARD.password);
-
-  await expect(page).toHaveTitle('Swag Labs');
-
-  await inventoryPage.addItemToCart(PRODUCTS.BACKPACK);
+test('User removes a product from the cart', async ({ page, inventoryPage, cartPage }) => {
+  await inventoryPage.addItemToCart(PRODUCTS.backpack);
   await inventoryPage.goToCart();
 
-  await expect(page).toHaveURL(URLS.CART);
+  await expect(page).toHaveURL(URLS.cart);
+  await cartPage.removeItem(PRODUCTS.backpack);
 
-  await cartPage.removeItem(PRODUCTS.BACKPACK);
-
-  await expect(cartPage.verifyProductExists(PRODUCTS.BACKPACK)).resolves.toBe(false);
+  await expect(cartPage.verifyProductExists(PRODUCTS.backpack)).resolves.toBe(false);
 });
 
 
 
-test('User adds multiple items to the cart', async ({ page, loginPage, inventoryPage, cartPage }) => {
-  await loginPage.login(ENV.USERS.STANDARD.username, ENV.USERS.STANDARD.password);
-
-  await expect(page).toHaveTitle('Swag Labs');
-
+test('User adds multiple items to the cart', async ({ page, inventoryPage, cartPage }) => {
   const items = [
-    PRODUCTS.BACKPACK,
-    PRODUCTS.BOLT_SHIRT,
-    PRODUCTS.FLEECE_JACKET,
-    PRODUCTS.BIKE_LIGHT,
+    PRODUCTS.backpack,
+    PRODUCTS.bolt_shirt,
+    PRODUCTS.fleece_jacket,
+    PRODUCTS.bike_light,
   ];
 
   for (const item of items) {
@@ -71,22 +58,23 @@ test('User adds multiple items to the cart', async ({ page, loginPage, inventory
   }
 
   await inventoryPage.goToCart();
-  await expect(page).toHaveURL(URLS.CART);
+  await expect(page).toHaveURL(URLS.cart);
 
   for (const item of items) {
     await expect(cartPage.verifyProductExists(item)).resolves.toBe(true);
   }
 });
 
-
-
-test('User attempts checkout with empty cart', async ({ page, loginPage, inventoryPage, cartPage, checkoutInformationPage, checkoutOverviewPage, confirmationPage }) => {
-  await loginPage.login(ENV.USERS.STANDARD.username, ENV.USERS.STANDARD.password);
-
-  await expect(page).toHaveTitle('Swag Labs');
-
+test('User can complete checkout with an empty cart', async ({
+  page,
+  inventoryPage,
+  cartPage,
+  checkoutInformationPage,
+  checkoutOverviewPage,
+  confirmationPage,
+}) => {
   await inventoryPage.goToCart();
-  await expect(page).toHaveURL(URLS.CART);
+  await expect(page).toHaveURL(URLS.cart);
 
   await cartPage.proceedToCheckout();
 
@@ -98,6 +86,6 @@ test('User attempts checkout with empty cart', async ({ page, loginPage, invento
 
   await checkoutOverviewPage.clickFinish();
 
-  await expect(confirmationPage.confirmationMessage).toBeVisible();
-  await expect(confirmationPage.confirmationMessage).toHaveText('Thank you for your order!');
+  await expect(confirmationPage.getConfirmationMessage()).toBeVisible();
+  await expect(confirmationPage.getConfirmationMessage()).toHaveText('Thank you for your order!');
 });

@@ -1,11 +1,11 @@
 import { Page, Locator } from '@playwright/test';
 
 export class CheckoutInformationPage {
-   readonly firstName: Locator;
-   readonly lastName: Locator;
-   readonly postalCode: Locator;
-   readonly continueBtn: Locator;
-   readonly informationError: Locator;
+   private readonly firstName: Locator;
+   private readonly lastName: Locator;
+   private readonly postalCode: Locator;
+   private readonly continueBtn: Locator;
+   private readonly informationError: Locator;
 
 
 
@@ -45,9 +45,11 @@ export class CheckoutInformationPage {
     await this.continueBtn.click();
 }
 
-async getInfoErrorMessage() {
-    return await this.informationError.textContent();
+    getInfoErrorMessage() {
+    return this.informationError;
 }
+
+
 
 
 }

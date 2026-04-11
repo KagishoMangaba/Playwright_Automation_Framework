@@ -1,57 +1,39 @@
 import { Page, Locator } from '@playwright/test';
 
 export class CartPage {
-    // Locators
-   readonly cartTitle: Locator;
-   readonly cartItems: Locator;
-   readonly checkoutButton: Locator;
+  private readonly cartItems: Locator;
+  private readonly checkoutButton: Locator;
+  private readonly removeBtn: Locator;
+  private readonly items: Locator;
 
-    constructor(private page: Page) {
-        this.cartTitle      = page.locator('.title'); // usually "Your Cart"
-        this.cartItems      = page.locator('.cart_item'); // all items in cart
-        this.checkoutButton = page.locator('#checkout'); // checkout button
-        
-    }
-
-
-    // Get number of items in cart
-    async getCartCount(): Promise<number> {
-        return await this.cartItems.count();
-    }
+  constructor(private page: Page) {
+    this.cartItems = page.locator('.cart_item');
+    this.checkoutButton = page.locator('#checkout');
+    this.removeBtn = page.locator('.btn.btn_secondary.btn_small.cart_button');
+    this.items = page.locator('.inventory_item_name');
+  }
 
 
-
-    // Remove an item by name
-    async removeItem(itemName: string) {
-        const item      = this.cartItems.filter({ hasText: itemName });
-        const removeBtn = item.locator('.btn.btn_secondary.btn_small.cart_button'); // remove button inside this item
-        await removeBtn.click();
-    }
+  async getCartCount(): Promise<number> {
+    return await this.cartItems.count();
+  }
 
 
+  async removeItem(itemName: string): Promise<void> {
+    await this.cartItems
+      .filter({ hasText: itemName })
+      .locator('.btn.btn_secondary.btn_small.cart_button')
+      .click();
+  }
 
-    // Click checkout
-    async proceedToCheckout() {
-        await this.checkoutButton.click();
-    }
+
+  async proceedToCheckout(): Promise<void> {
+    await this.checkoutButton.click();
+  }
 
 
 
-    // Optional: check cart page title
-    async checkTitle(expected: string) {
-        const title = await this.cartTitle.textContent();
-        if (title !== expected) {
-            throw new Error(`Expected title "${expected}", got "${title}"`);
-        }
-    }
-
-    
-   // cartPage.ts
-async verifyProductExists(itemName: string): Promise<boolean> {
-    const items = this.page.locator('.inventory_item_name');
-    const texts = await items.allTextContents();
-    return texts.includes(itemName);
-
-
-    }
+  async verifyProductExists(itemName: string): Promise<boolean> {
+    return (await this.items.allTextContents()).includes(itemName);
+  }
 }

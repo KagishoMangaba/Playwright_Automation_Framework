@@ -5,7 +5,8 @@
     "strict": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "types": ["node", "playwright"]
+    "types": ["node", "playwright"],
+    "resolveJsonModule": true
   },
   "include": ["**/*.ts"]
 }

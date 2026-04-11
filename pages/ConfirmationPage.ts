@@ -1,17 +1,21 @@
-import { Page, Locator } from '@playwright/test';
+import { Page, Locator, expect } from '@playwright/test';
 
 export class ConfirmationPage {
-    readonly confirmationMessage: Locator;
+  private readonly confirmationMessage: Locator;
 
-
-    constructor(private page: Page) {
+  constructor(private page: Page) {
     this.confirmationMessage = page.locator('.complete-header');
+  }
 
+  getConfirmationMessage(): Locator {
+    return this.confirmationMessage;
+  }
 
-}
+  async assertConfirmationMessageVisible(): Promise<void> {
+    await expect(this.confirmationMessage).toBeVisible();
+  }
 
- async getConfirmationMessgage() {
-        return await this.confirmationMessage.textContent()
-    }
-
+  async assertConfirmationMessageText(expectedText: string): Promise<void> {
+    await expect(this.confirmationMessage).toHaveText(expectedText);
+  }
 }

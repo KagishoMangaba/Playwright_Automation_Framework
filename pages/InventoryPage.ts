@@ -1,31 +1,38 @@
 import { Page, Locator } from '@playwright/test';
 
 export class InventoryPage {
-    // Locators
-    inventoryTitle: Locator;
 
-    constructor(private page: Page) {
-        this.inventoryTitle = page.locator('.title'); // page title
+    private readonly page: Page;
+
+    private readonly inventoryTitle: Locator;
+    private readonly cartLink: Locator;
+    private readonly inventoryItems: Locator;
+
+    constructor(page: Page) {
+        this.page = page;
+
+        this.inventoryTitle = page.locator('.title');
+        this.cartLink = page.locator('.shopping_cart_link');
+        this.inventoryItems = page.locator('.inventory_item');
     }
 
-    // Click "Add to Cart" for a specific item by name
+    // Get specific item by name
+    private getItem(itemName: string): Locator {
+        return this.inventoryItems.filter({ hasText: itemName });
+    }
+
+    // Get "Add to Cart" button inside item
+    private getAddButton(itemName: string): Locator {
+        return this.getItem(itemName).locator('button');
+    }
+
+    // Add item to cart
     async addItemToCart(itemName: string) {
-        const item = this.page.locator('.inventory_item', { hasText: itemName });
-        const addBtn = item.locator('button'); // button inside this specific item
-        await addBtn.click();
-    }
-
-    // Check inventory page title
-    async checkTitle(expected: string) {
-        const title = await this.inventoryTitle.textContent();
-        if (title !== expected) {
-            throw new Error(`Expected title "${expected}", got "${title}"`);
-        }
+        await this.getAddButton(itemName).click();
     }
 
     // Navigate to cart
     async goToCart() {
-        const cartLink = this.page.locator('.shopping_cart_link');
-        await cartLink.click();
+        await this.cartLink.click();
     }
 }

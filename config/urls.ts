@@ -1,6 +1,6 @@
 export const URLS = {
-  LOGIN: '/',
-  INVENTORY: '/inventory.html',
-  CART: '/cart.html',
-  CHECKOUT: '/checkout-step-one.html',
+  login: '/',
+  inventory: '/inventory.html',
+  cart: '/cart.html',
+  checkout: '/checkout-step-one.html',
 } as const;

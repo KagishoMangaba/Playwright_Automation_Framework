@@ -1,8 +1,8 @@
 import { Page, Locator } from '@playwright/test';
 
 export class CheckoutOverviewPage {
-    readonly finishButton: Locator;
-    readonly cancelButton: Locator;
+    private readonly finishButton: Locator;
+    private readonly cancelButton: Locator;
 
     constructor(private page: Page) {
         this.finishButton = page.locator('#finish');

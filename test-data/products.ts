@@ -1,8 +1,8 @@
 export const PRODUCTS = {
-  BACKPACK: 'Sauce Labs Backpack',
-  BIKE_LIGHT: 'Sauce Labs Bike Light',
-  BOLT_SHIRT: 'Sauce Labs Bolt T-Shirt',
-  FLEECE_JACKET: 'Sauce Labs Fleece Jacket',
-  ONESIE: 'Sauce Labs Onesie',
-  RED_SHIRT: 'Test.allTheThings() T-Shirt (Red)',
+  backpack: 'Sauce Labs Backpack',
+  bike_light: 'Sauce Labs Bike Light',
+  bolt_shirt: 'Sauce Labs Bolt T-Shirt',
+  fleece_jacket: 'Sauce Labs Fleece Jacket',
+  onesie: 'Sauce Labs Onesie',
+  red_shirt: 'Test.allTheThings() T-Shirt (Red)',
 } as const;
