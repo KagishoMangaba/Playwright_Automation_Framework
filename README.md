@@ -40,28 +40,6 @@ A professional end-to-end automation testing framework for [SauceDemo](https://w
 
 ---
 
-## 📁 Project Structure
-
-```
-saucedemo-playwright/
-├── pages/                  # Page Object Model classes
-│   ├── LoginPage.ts
-│   ├── InventoryPage.ts
-│   └── ...
-├── tests/                  # Test specs
-│   ├── login.spec.ts
-│   └── ...
-├── test-data/              # JSON test data files
-│   └── users.json
-├── utils/                  # Helper utilities
-│   └── helpers.ts
-├── playwright.config.ts    # Playwright configuration
-├── package.json
-└── tsconfig.json
-```
-
----
-
 ## 🚀 Getting Started
 
 ### Prerequisites
