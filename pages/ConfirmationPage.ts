@@ -1,21 +1,29 @@
-import { Page, Locator, expect } from '@playwright/test';
+import { Page, Locator } from '@playwright/test';
+import { Logger } from '../utils/logger';
+import { InteractUtil } from '../utils/Interact';
 
 export class ConfirmationPage {
-  private readonly confirmationMessage: Locator;
+    private readonly confirmationMessage: Locator;
 
-  constructor(private page: Page) {
-    this.confirmationMessage = page.locator('.complete-header');
-  }
+    private readonly log: Logger;
+    private readonly interact: InteractUtil;
 
-  getConfirmationMessage(): Locator {
-    return this.confirmationMessage;
-  }
+    constructor(private readonly page: Page) {
+        this.log      = new Logger('ConfirmationPage');
+        this.interact = new InteractUtil(this.log);
 
-  async assertConfirmationMessageVisible(): Promise<void> {
-    await expect(this.confirmationMessage).toBeVisible();
-  }
+        this.confirmationMessage = page.locator('.complete-header');
+    }
 
-  async assertConfirmationMessageText(expectedText: string): Promise<void> {
-    await expect(this.confirmationMessage).toHaveText(expectedText);
-  }
+    getConfirmationMessage(): Locator {
+        return this.confirmationMessage;
+    }
+
+    async getConfirmationMessageText(): Promise<string> {
+        return await this.interact.getText(this.confirmationMessage, 'Confirmation Message');
+    }
+
+    async isConfirmationMessageVisible(): Promise<boolean> {
+        return await this.interact.isVisible(this.confirmationMessage, 'Confirmation Message');
+    }
 }

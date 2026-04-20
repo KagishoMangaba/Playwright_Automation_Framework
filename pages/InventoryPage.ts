@@ -1,38 +1,45 @@
 import { Page, Locator } from '@playwright/test';
+import { Logger } from '../utils/logger';
+import { InteractUtil } from '../utils/Interact';
 
 export class InventoryPage {
-
-    private readonly page: Page;
-
     private readonly inventoryTitle: Locator;
     private readonly cartLink: Locator;
     private readonly inventoryItems: Locator;
 
-    constructor(page: Page) {
-        this.page = page;
+    private readonly log: Logger;
+    private readonly interact: InteractUtil;
 
-        this.inventoryTitle = page.locator('.title');
-        this.cartLink = page.locator('.shopping_cart_link');
-        this.inventoryItems = page.locator('.inventory_item');
+    constructor(private readonly page: Page) {
+        this.log      = new Logger('InventoryPage');
+        this.interact = new InteractUtil(this.log);
+
+        this.inventoryTitle  = page.locator('.title');
+        this.cartLink        = page.locator('.shopping_cart_link');
+        this.inventoryItems  = page.locator('.inventory_item');
     }
 
-    // Get specific item by name
     private getItem(itemName: string): Locator {
         return this.inventoryItems.filter({ hasText: itemName });
     }
 
-    // Get "Add to Cart" button inside item
     private getAddButton(itemName: string): Locator {
         return this.getItem(itemName).locator('button');
     }
 
-    // Add item to cart
-    async addItemToCart(itemName: string) {
-        await this.getAddButton(itemName).click();
+    async addItemToCart(itemName: string): Promise<void> {
+        await this.interact.click(this.getAddButton(itemName), `Add to Cart - ${itemName}`);
     }
 
-    // Navigate to cart
-    async goToCart() {
-        await this.cartLink.click();
+    async goToCart(): Promise<void> {
+        await this.interact.click(this.cartLink, 'Cart Link');
+    }
+
+    async getTitle(): Promise<string> {
+        return await this.interact.getText(this.inventoryTitle, 'Inventory Title');
+    }
+
+    async getItemCount(): Promise<number> {
+        return await this.interact.getCount(this.inventoryItems, 'Inventory Items');
     }
 }

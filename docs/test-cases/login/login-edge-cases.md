@@ -97,7 +97,7 @@ T
 - Error Message Displayed: Epic sadface: Username is required
 
 **status**
-- failed
+- Pass
 
 
 
@@ -131,4 +131,4 @@ T
 - Epic sadface: Username and password do not match any user in this service
 
 **Status:**
-- FAIL
+- Pass

@@ -1,0 +1,21 @@
+services:
+  playwright:
+    build: .
+    image: saucedemo-playwright
+    container_name: saucedemo-tests
+    ipc: host
+    volumes:
+      - ./allure-results:/app/allure-results
+      - ./allure-report:/app/allure-report
+    command: npx playwright test
+
+  allure:
+    image: frankescobar/allure-docker-service
+    container_name: allure-report
+    ports:
+      - "5050:5050"
+    volumes:
+      - ./allure-results:/app/allure-results
+      - ./allure-report:/app/allure-report
+    depends_on:
+      - playwright

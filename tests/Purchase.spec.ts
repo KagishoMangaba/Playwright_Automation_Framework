@@ -45,23 +45,14 @@ test('Full End-to-End Purchase', async ({
 
 
 
-test('Checkout fails if First Name is empty', async ({
-  page,
-  inventoryPage,
-  cartPage,
-  checkoutInformationPage,
-}) => {
+test('Checkout fails if First Name is empty', async ({  page, inventoryPage, cartPage, checkoutInformationPage,}) => {
   await inventoryPage.addItemToCart(PRODUCTS.bolt_shirt);
   await inventoryPage.goToCart();
 
   await expect(page).toHaveURL(URLS.cart);
 
   await cartPage.proceedToCheckout();
-  await checkoutInformationPage.completeCheckout(
-    '',
-    USER_CHECKOUT.lastName,
-    USER_CHECKOUT.postalCode
-  );
+  await checkoutInformationPage.completeCheckout('', USER_CHECKOUT.lastName,  USER_CHECKOUT.postalCode );
 
   await expect(checkoutInformationPage.getInfoErrorMessage()).toBeVisible();
   await expect(checkoutInformationPage.getInfoErrorMessage()).toHaveText(errrorMessages.checkout.firstNameRequired);
@@ -70,22 +61,14 @@ test('Checkout fails if First Name is empty', async ({
 
 
 
-test('Checkout fails if Last Name is empty', async ({
-  page,
-  inventoryPage,
-  cartPage,
-  checkoutInformationPage,
-}) => {
+test('Checkout fails if Last Name is empty', async ({page, inventoryPage, cartPage,checkoutInformationPage,}) => {
+
   await inventoryPage.addItemToCart(PRODUCTS.bolt_shirt);
   await inventoryPage.goToCart();
-
   await expect(page).toHaveURL(URLS.cart);
-
   await cartPage.proceedToCheckout();
   await checkoutInformationPage.completeCheckout(
-    USER_CHECKOUT.firstName,
-    '',
-    USER_CHECKOUT.postalCode
+    USER_CHECKOUT.firstName, '', USER_CHECKOUT.postalCode
   );
 
   await expect(checkoutInformationPage.getInfoErrorMessage()).toBeVisible();
@@ -94,36 +77,19 @@ test('Checkout fails if Last Name is empty', async ({
 
 
 
-test('Checkout fails if Postal Code is empty', async ({
-  page,
-  inventoryPage,
-  cartPage,
-  checkoutInformationPage,
-}) => {
+test('Checkout fails if Postal Code is empty', async ({ page, inventoryPage, cartPage, checkoutInformationPage,}) => {
   await inventoryPage.addItemToCart(PRODUCTS.bolt_shirt);
   await inventoryPage.goToCart();
-
   await expect(page).toHaveURL(URLS.cart);
-
   await cartPage.proceedToCheckout();
-  await checkoutInformationPage.completeCheckout(
-    USER_CHECKOUT.firstName,
-    USER_CHECKOUT.lastName,
-    ''
-  );
-
+  await checkoutInformationPage.completeCheckout(  USER_CHECKOUT.firstName, USER_CHECKOUT.lastName,'');
   await expect(checkoutInformationPage.getInfoErrorMessage()).toBeVisible();
   await expect(checkoutInformationPage.getInfoErrorMessage()).toHaveText(errrorMessages.checkout.postalCodeRequired);
 });
 
 
 
-test('Checkout fails when all fields are empty', async ({
-  page,
-  inventoryPage,
-  cartPage,
-  checkoutInformationPage,
-}) => {
+test('Checkout fails when all fields are empty', async ({ page, inventoryPage, cartPage, checkoutInformationPage,}) => {
   await inventoryPage.addItemToCart(PRODUCTS.bolt_shirt);
   await inventoryPage.goToCart();
 
@@ -131,27 +97,16 @@ test('Checkout fails when all fields are empty', async ({
 
   await cartPage.proceedToCheckout();
   await checkoutInformationPage.completeCheckout('', '', '');
-
   await expect(checkoutInformationPage.getInfoErrorMessage()).toBeVisible();
   await expect(checkoutInformationPage.getInfoErrorMessage()).toHaveText('Error: First Name is required');
 });
 
 
 
-test('User attempts checkout with empty cart', async ({
-  page,
-  inventoryPage,
-  cartPage,
-  checkoutInformationPage,
-  checkoutOverviewPage,
-  confirmationPage,
-}) => {
+test('User attempts checkout with empty cart', async ({ page, inventoryPage , cartPage, checkoutInformationPage,  checkoutOverviewPage, confirmationPage,}) => {
   await inventoryPage.goToCart();
-
   await expect(page).toHaveURL(URLS.cart);
-
   await cartPage.proceedToCheckout();
-
   await checkoutInformationPage.completeCheckout(
     USER_CHECKOUT.firstName,
     USER_CHECKOUT.lastName,
