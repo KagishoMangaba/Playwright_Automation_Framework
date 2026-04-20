@@ -27,6 +27,15 @@ jobs:
 
       - name: Run tests
         run: docker compose up --abort-on-container-exit
+        env:
+          ENV: qa
+          STANDARD_USER: standard_user
+          STANDARD_PASSWORD: secret_sauce
+          LOCKED_USER: locked_out_user
+          LOCKED_PASSWORD: secret_sauce
+          BASE_URL: https://www.saucedemo.com
+          TEST_TIMEOUT: 30000
+          EXPECT_TIMEOUT: 5000
 
       - name: Upload Allure results
         uses: actions/upload-artifact@v4
