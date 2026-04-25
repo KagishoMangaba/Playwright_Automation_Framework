@@ -4,6 +4,8 @@ import { PRODUCTS } from '../test-data/products';
 import { USER_CHECKOUT } from '../test-data/users';
 import { URLS } from '../config/urls';
 import errrorMessages from '../test-data/messages/checkoutInfoError.json';
+import confirmationMessage from '../test-data/messages/confirmationMessage.json';
+
 
 test.beforeEach(async ({ page, loginPage }) => {
   await page.goto(ENV.BASE_URL);
@@ -39,7 +41,7 @@ test('Full End-to-End Purchase', async ({
   await checkoutOverviewPage.clickFinish();
 
   await expect(confirmationPage.getConfirmationMessage()).toBeVisible();
-  await expect(confirmationPage.getConfirmationMessage()).toHaveText('Thank you for your order!');
+  await expect(confirmationPage.getConfirmationMessage()).toHaveText();
 });
 
 
