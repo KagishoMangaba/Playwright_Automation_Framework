@@ -1,0 +1,3 @@
+[2026-05-06T13:58:46.472Z] [INFO] [LoginPage] Sent "Freddie.Mohr" to "Username" input
+[2026-05-06T13:58:46.585Z] [INFO] [LoginPage] Sent "8VLvetgOEtHWbYy" to "Password" input
+[2026-05-06T13:58:46.694Z] [INFO] [LoginPage] Clicked on "Login Button"

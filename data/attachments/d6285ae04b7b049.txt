@@ -1,3 +1,0 @@
-[2026-05-06T13:45:33.912Z] [INFO] [LoginPage] Sent "   " to "Username" input
-[2026-05-06T13:45:34.053Z] [INFO] [LoginPage] Sent "    " to "Password" input
-[2026-05-06T13:45:34.138Z] [INFO] [LoginPage] Clicked on "Login Button"

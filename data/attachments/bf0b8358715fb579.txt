@@ -1,3 +1,0 @@
-[2026-05-06T13:45:00.859Z] [INFO] [LoginPage] Sent "Janice_McDermott0" to "Username" input
-[2026-05-06T13:45:00.980Z] [INFO] [LoginPage] Sent "jVEMDWG322uexVm" to "Password" input
-[2026-05-06T13:45:01.082Z] [INFO] [LoginPage] Clicked on "Login Button"
