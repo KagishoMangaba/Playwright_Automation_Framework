@@ -35,8 +35,10 @@ jobs:
 
       - name: Run Playwright tests
         env:
-          STANDARD_USERNAME: ${{ secrets.STANDARD_USERNAME }}
+          STANDARD_USER: ${{ secrets.STANDARD_USER }}
           STANDARD_PASSWORD: ${{ secrets.STANDARD_PASSWORD }}
+          LOCKED_USER: ${{ secrets.LOCKED_USER }}
+          LOCKED_PASSWORD: ${{ secrets.LOCKED_PASSWORD }}
         run: npx playwright test
         continue-on-error: true
 
