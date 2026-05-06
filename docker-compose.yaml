@@ -15,14 +15,5 @@ services:
       - EXPECT_TIMEOUT=5000
     volumes:
       - ./allure-results:/app/allure-results
+      - ./test-results:/app/test-results
     command: npx playwright test
-
-  allure:
-    image: frankescobar/allure-docker-service
-    container_name: allure-report
-    ports:
-      - "5050:5050"
-    volumes:
-      - ./allure-results:/app/allure-results
-    depends_on:
-      - playwright
