@@ -37,11 +37,13 @@ test('Full End-to-End Purchase', async ({
     USER_CHECKOUT.postalCode
   );
 
+  await checkoutOverviewPage.verifyProductHasCorrectQty(PRODUCTS.bolt_shirt , 1);
   await expect(checkoutOverviewPage.hasItem(PRODUCTS.bolt_shirt)).resolves.toBe(true);
   await checkoutOverviewPage.clickFinish();
 
   await expect(confirmationPage.getConfirmationMessage()).toBeVisible();
-  await expect(confirmationPage.getConfirmationMessage()).toHaveText();
+  await expect(confirmationPage.getConfirmationMessage()).toHaveText('Thank you for your order!');
+
 });
 
 

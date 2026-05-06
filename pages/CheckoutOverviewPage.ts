@@ -1,7 +1,8 @@
-import { Page, Locator } from '@playwright/test';
+import { Page, Locator , expect } from '@playwright/test';
 import { Logger } from '../utils/logger';
 import { InteractUtil } from '../utils/Interact';
 import { L } from '@faker-js/faker/dist/airline-eVQV6kbz';
+import console from 'node:console';
 
 export class CheckoutOverviewPage {
     private readonly finishButton: Locator;
@@ -50,5 +51,14 @@ export class CheckoutOverviewPage {
         return count > 0;
     }
 
+   async verifyProductHasCorrectQty(itemName: string, expectedQty: number): Promise<void> {
+    const itemContainer = this.page.locator('.cart_item', {
+        has: this.page.locator('.inventory_item_name', { hasText: itemName })
+    });
+
+    const qty = itemContainer.locator('[data-test="item-quantity"]');
+    await expect(qty).toHaveText(String(expectedQty));
+    
+}
 
 }
