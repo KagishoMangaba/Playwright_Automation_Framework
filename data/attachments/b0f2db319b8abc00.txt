@@ -1,0 +1,3 @@
+[2026-05-06T13:40:29.090Z] [INFO] [LoginPage] Sent "Gloria_Deckow81" to "Username" input
+[2026-05-06T13:40:29.139Z] [INFO] [LoginPage] Sent "eaEcKuS2gYVEkIA" to "Password" input
+[2026-05-06T13:40:29.242Z] [INFO] [LoginPage] Clicked on "Login Button"
