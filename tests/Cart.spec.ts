@@ -65,6 +65,7 @@ test('User adds multiple items to the cart', async ({ page, inventoryPage, cartP
   }
 });
 
+
 test('User can complete checkout with an empty cart', async ({ page,  inventoryPage, cartPage, checkoutInformationPage, checkoutOverviewPage, confirmationPage,}) => {
   await inventoryPage.goToCart();
   await expect(page).toHaveURL(URLS.cart);

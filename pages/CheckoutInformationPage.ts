@@ -47,6 +47,6 @@ export class CheckoutInformationPage {
     
     async completeCheckout(first: string, last: string, postal: string): Promise<void> {
         await this.fillInformation(first, last, postal);
-        await this.interact.click(this.continueBtn, 'Continue Button');
+        await this.interact.click(this.continueBtn, 'Continue Button.');
     }
 }
