@@ -4,16 +4,21 @@ services:
     image: saucedemo-playwright
     container_name: saucedemo-tests
     ipc: host
+
     environment:
-      - ENV=qa
-      - STANDARD_USER=standard_user
-      - STANDARD_PASSWORD=secret_sauce
-      - LOCKED_USER=locked_out_user
-      - LOCKED_PASSWORD=secret_sauce
-      - BASE_URL=https://www.saucedemo.com
-      - TEST_TIMEOUT=30000
-      - EXPECT_TIMEOUT=5000
+      ENV: qa
+      STANDARD_USER: standard_user
+      STANDARD_PASSWORD: secret_sauce
+      LOCKED_USER: locked_out_user
+      LOCKED_PASSWORD: secret_sauce
+      BASE_URL: https://www.saucedemo.com
+      TEST_TIMEOUT: 30000
+      EXPECT_TIMEOUT: 5000
+
     volumes:
       - ./allure-results:/app/allure-results
       - ./test-results:/app/test-results
+
+    working_dir: /app
+
     command: npx playwright test
