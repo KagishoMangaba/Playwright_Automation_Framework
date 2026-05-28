@@ -121,4 +121,5 @@ test('User attempts checkout with empty cart', async ({ page, inventoryPage , ca
   await expect(confirmationPage.getConfirmationMessage()).toBeVisible();
   
 
+  
 });

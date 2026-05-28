@@ -28,7 +28,7 @@ export default defineConfig({
         baseURL: ENV.BASE_URL,
 
         screenshot: 'on',
-        video: 'retain-on-failure',
+        video: 'on',
         trace: 'retain-on-failure',
     },
 
