@@ -81,4 +81,5 @@ test('User can complete checkout with an empty cart', async ({ page,  inventoryP
   await checkoutOverviewPage.clickFinish();
   await expect(confirmationPage.getConfirmationMessage()).toBeVisible();
   await expect(confirmationPage.getConfirmationMessage()).toHaveText('Thank you for your order!');
+  ////,
 });
