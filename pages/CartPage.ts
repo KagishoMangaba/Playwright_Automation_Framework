@@ -20,7 +20,7 @@ export class CartPage {
 
     async getCartCount(): Promise<number> {
         return await this.interact.getCount(this.cartItems, 'Cart Items');
-    }
+    }   
 
 
     async removeItem(itemName: string): Promise<void> {

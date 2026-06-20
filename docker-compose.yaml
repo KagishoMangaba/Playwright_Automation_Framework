@@ -21,4 +21,4 @@ services:
 
     working_dir: /app
 
-    command: npx playwright test
+    command: npx playwright test --grep "@regression"

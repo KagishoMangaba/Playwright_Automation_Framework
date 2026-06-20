@@ -3,83 +3,97 @@ import { ENV } from '../config/env';
 import { PRODUCTS } from '../test-data/products';
 import { USER_CHECKOUT } from '../test-data/users';
 import { URLS } from '../config/urls';
-import { LoginPage } from '../pages/LoginPage';
 
 test.beforeEach(async ({ page, loginPage }) => {
   await page.goto(ENV.BASE_URL);
   await loginPage.login(ENV.USERS.STANDARD.username, ENV.USERS.STANDARD.password);
 });
 
+// ─── Smoke ────────────────────────────────────────────────────────────────────
 
+test(
+  'User adds a product to cart and verifies it',
+  { tag: '@smoke' },
+  async ({ page, inventoryPage, cartPage }) => {
+    await inventoryPage.addItemToCart(PRODUCTS.backpack);
+    await inventoryPage.goToCart();
 
-test('User adds a product to cart and verifies it', async ({ page, inventoryPage, cartPage }) => {
-  await inventoryPage.addItemToCart(PRODUCTS.backpack);
-  await inventoryPage.goToCart();
+    await expect(page).toHaveURL(URLS.cart);
+    await expect(cartPage.verifyProductExists(PRODUCTS.backpack)).resolves.toBe(true);
+  },
+);
 
-  await expect(page).toHaveURL(URLS.cart);
-  await expect(cartPage.verifyProductExists(PRODUCTS.backpack)).resolves.toBe(true);
-});
+test(
+  'User can complete checkout with an empty cart',
+  { tag: '@smoke' },
+  async ({ page, inventoryPage, cartPage, checkoutInformationPage, checkoutOverviewPage, confirmationPage }) => {
+    await inventoryPage.goToCart();
+    await expect(page).toHaveURL(URLS.cart);
 
+    await cartPage.proceedToCheckout();
 
+    await checkoutInformationPage.completeCheckout(
+      USER_CHECKOUT.firstName,
+      USER_CHECKOUT.lastName,
+      USER_CHECKOUT.postalCode,
+    );
 
-test('Cart only contains the product that was added', async ({ page, inventoryPage, cartPage }) => {
-  await inventoryPage.addItemToCart(PRODUCTS.backpack);
-  await inventoryPage.goToCart();
+    await checkoutOverviewPage.clickFinish();
 
-  await expect(page).toHaveURL(URLS.cart);
-  await expect(cartPage.verifyProductExists(PRODUCTS.backpack)).resolves.toBe(true);
-  await expect(cartPage.verifyProductExists(PRODUCTS.bolt_shirt)).resolves.toBe(false);
-});
+    await expect(confirmationPage.getConfirmationMessage()).toBeVisible();
+    await expect(confirmationPage.getConfirmationMessage()).toHaveText('Thank you for your order!');
+  },
+);
 
+// ─── Regression ───────────────────────────────────────────────────────────────
 
+test(
+  'Cart only contains the product that was added',
+  { tag: '@regression' },
+  async ({ page, inventoryPage, cartPage }) => {
+    await inventoryPage.addItemToCart(PRODUCTS.backpack);
+    await inventoryPage.goToCart();
 
-test('User removes a product from the cart', async ({ page, inventoryPage, cartPage }) => {
-  await inventoryPage.addItemToCart(PRODUCTS.backpack);
-  await inventoryPage.goToCart();
+    await expect(page).toHaveURL(URLS.cart);
+    await expect(cartPage.verifyProductExists(PRODUCTS.backpack)).resolves.toBe(true);
+    await expect(cartPage.verifyProductExists(PRODUCTS.bolt_shirt)).resolves.toBe(false);
+  },
+);
 
-  await expect(page).toHaveURL(URLS.cart);
-  await cartPage.removeItem(PRODUCTS.backpack);
+test(
+  'User removes a product from the cart',
+  { tag: '@regression' },
+  async ({ page, inventoryPage, cartPage }) => {
+    await inventoryPage.addItemToCart(PRODUCTS.backpack);
+    await inventoryPage.goToCart();
 
-  await expect(cartPage.verifyProductExists(PRODUCTS.backpack)).resolves.toBe(false);
-});
+    await expect(page).toHaveURL(URLS.cart);
+    await cartPage.removeItem(PRODUCTS.backpack);
 
+    await expect(cartPage.verifyProductExists(PRODUCTS.backpack)).resolves.toBe(false);
+  },
+);
 
+test(
+  'User adds multiple items to the cart',
+  { tag: '@regression' },
+  async ({ page, inventoryPage, cartPage }) => {
+    const items = [
+      PRODUCTS.backpack,
+      PRODUCTS.bolt_shirt,
+      PRODUCTS.fleece_jacket,
+      PRODUCTS.bike_light,
+    ];
 
-test('User adds multiple items to the cart', async ({ page, inventoryPage, cartPage }) => {
-  const items = [
-    PRODUCTS.backpack,
-    PRODUCTS.bolt_shirt,
-    PRODUCTS.fleece_jacket,
-    PRODUCTS.bike_light,
-  ];
+    for (const item of items) {
+      await inventoryPage.addItemToCart(item);
+    }
 
-  for (const item of items) {
-    await inventoryPage.addItemToCart(item);
-  }
+    await inventoryPage.goToCart();
+    await expect(page).toHaveURL(URLS.cart);
 
-  await inventoryPage.goToCart();
-  await expect(page).toHaveURL(URLS.cart);
-
-  for (const item of items) {
-    await expect(cartPage.verifyProductExists(item)).resolves.toBe(true);
-  }
-});
-
-
-test('User can complete checkout with an empty cart', async ({ page,  inventoryPage, cartPage, checkoutInformationPage, checkoutOverviewPage, confirmationPage,}) => {
-  await inventoryPage.goToCart();
-  await expect(page).toHaveURL(URLS.cart);
-
-  await cartPage.proceedToCheckout();
-
-  await checkoutInformationPage.completeCheckout(
-    USER_CHECKOUT.firstName,
-    USER_CHECKOUT.lastName,
-    USER_CHECKOUT.postalCode
-  );
-
-  await checkoutOverviewPage.clickFinish();
-  await expect(confirmationPage.getConfirmationMessage()).toBeVisible();
-  await expect(confirmationPage.getConfirmationMessage()).toHaveText('Thank you for your order!');
-  ////,
-});
+    for (const item of items) {
+      await expect(cartPage.verifyProductExists(item)).resolves.toBe(true);
+    }
+  },
+);

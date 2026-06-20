@@ -1,9 +1,9 @@
-
 import { test, expect } from '../fixtures/testFixtures';
 import { faker } from '@faker-js/faker';
 import { ENV } from '../config/env';
 import { URLS } from '../config/urls';
 import loginErrors from '../test-data/messages/loginError.json';
+import { Messages } from '../utils/constants';
 
 test.beforeEach(async ({ page }) => {
     await page.goto(ENV.BASE_URL);
@@ -15,9 +15,9 @@ async function expectErrorMessage(loginPage: any, expectedText: string) {
     await expect(error).toHaveText(expectedText);
 }
 
-test.describe('Login', () => {
+test.describe('@regression Login', () => {
 
-    test('TC-LOGIN-001: Verify user can log in with valid credentials', async ({ loginPage, page }) => {
+    test('@regression TC-LOGIN-001: Verify user can log in with valid credentials', async ({ loginPage, page }) => {
         await loginPage.login(ENV.USERS.STANDARD.username, ENV.USERS.STANDARD.password);
 
         await expect(page).toHaveTitle('Swag Labs');
@@ -26,26 +26,25 @@ test.describe('Login', () => {
 
 
 
-    test('TC-LOGIN-002: Verify user cannot log in with invalid credentials', async ({ loginPage }) => {
+    test('@smoke TC-LOGIN-001: Verify user can log in with valid credentials', async ({ loginPage }) => {
         await loginPage.login(faker.internet.username(), faker.internet.password());
-
-        await expectErrorMessage(loginPage, loginErrors.login.invalidCredentials);
+        await expectErrorMessage(loginPage, Messages.login.invalidCredentials);
+       
     });
 
 
 
     test('TC-LOGIN-003: Verify locked out user cannot log in', async ({ loginPage }) => {
         await loginPage.login(ENV.USERS.LOCKED.username, ENV.USERS.LOCKED.password);
-
-        await expectErrorMessage(loginPage, loginErrors.login.lockedOutUser);
+        await expectErrorMessage(loginPage, Messages.login.lockedOutUser);
     });
 
 
 
-    test('TC-LOGIN-004: Verify that a logged in user can log out', async ({ loginPage, page }) => {
+    test('@smoke TC-LOGIN-004: Verify that a logged in user can log out', async ({ loginPage, page }) => {
         await loginPage.login(ENV.USERS.STANDARD.username, ENV.USERS.STANDARD.password);
         await expect(page).toHaveURL(URLS.inventory);
-
+        
         await loginPage.logout();
         await expect(page).toHaveURL(URLS.login);
     });
@@ -55,14 +54,14 @@ test.describe('Login', () => {
     test('TC-LOGIN-005: Verify error message when password field is left empty', async ({ loginPage }) => {
         await loginPage.login(ENV.USERS.STANDARD.username, '');
 
-        await expectErrorMessage(loginPage, loginErrors.login.passwordRequired);
+        await expectErrorMessage(loginPage, Messages.login.passwordRequired);
     });
 
 
     test('TC-LOGIN-006: Verify error message when username field is left empty', async ({ loginPage }) => {
         await loginPage.login('', ENV.USERS.STANDARD.password);
 
-        await expectErrorMessage(loginPage, loginErrors.login.usernameRequired);
+        await expectErrorMessage(loginPage, Messages.login.usernameRequired);
     });
 
 
@@ -70,7 +69,7 @@ test.describe('Login', () => {
     test('TC-LOGIN-007: Verify error message when both input fields are empty', async ({ loginPage }) => {
         await loginPage.login('', '');
 
-        await expectErrorMessage(loginPage, loginErrors.login.usernameRequired);
+        await expectErrorMessage(loginPage, Messages.login.usernameRequired);
     });
 
 
@@ -78,7 +77,7 @@ test.describe('Login', () => {
     test('TC-LOGIN-008: Verify error when input contains only whitespace', async ({ loginPage }) => {
         await loginPage.login('   ', '    ');
 
-        await expectErrorMessage(loginPage, loginErrors.login.invalidCredentials);
+        await expectErrorMessage(loginPage, Messages.login.invalidCredentials);
     });
 
     

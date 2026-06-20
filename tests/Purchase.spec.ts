@@ -14,7 +14,7 @@ test.beforeEach(async ({ page, loginPage }) => {
 
 
 
-test('Full End-to-End Purchase', async ({
+test('Full End-to-End Purchase @smoke @regression', async ({
   page,
   inventoryPage,
   cartPage,
@@ -49,7 +49,7 @@ test('Full End-to-End Purchase', async ({
 
 
 
-test('Checkout fails if First Name is empty', async ({  page, inventoryPage, cartPage, checkoutInformationPage,}) => {
+test('Checkout fails if First Name is empty @regression', async ({  page, inventoryPage, cartPage, checkoutInformationPage,}) => {
   await inventoryPage.addItemToCart(PRODUCTS.bolt_shirt);
   await inventoryPage.goToCart();
 
@@ -65,7 +65,7 @@ test('Checkout fails if First Name is empty', async ({  page, inventoryPage, car
 
 
 
-test('Checkout fails if Last Name is empty', async ({page, inventoryPage, cartPage,checkoutInformationPage,}) => {
+test('Checkout fails if Last Name is empty @regression', async ({page, inventoryPage, cartPage,checkoutInformationPage,}) => {
 
   await inventoryPage.addItemToCart(PRODUCTS.bolt_shirt);
   await inventoryPage.goToCart();
@@ -81,7 +81,7 @@ test('Checkout fails if Last Name is empty', async ({page, inventoryPage, cartPa
 
 
 
-test('Checkout fails if Postal Code is empty', async ({ page, inventoryPage, cartPage, checkoutInformationPage,}) => {
+test('Checkout fails if Postal Code is empty @regression', async ({ page, inventoryPage, cartPage, checkoutInformationPage,}) => {
   await inventoryPage.addItemToCart(PRODUCTS.bolt_shirt);
   await inventoryPage.goToCart();
   await expect(page).toHaveURL(URLS.cart);
@@ -93,7 +93,7 @@ test('Checkout fails if Postal Code is empty', async ({ page, inventoryPage, car
 
 
 
-test('Checkout fails when all fields are empty', async ({ page, inventoryPage, cartPage, checkoutInformationPage,}) => {
+test('Checkout fails when all fields are empty @regression', async ({ page, inventoryPage, cartPage, checkoutInformationPage,}) => {
   await inventoryPage.addItemToCart(PRODUCTS.bolt_shirt);
   await inventoryPage.goToCart();
 
@@ -107,7 +107,7 @@ test('Checkout fails when all fields are empty', async ({ page, inventoryPage, c
 
 
 
-test('User attempts checkout with empty cart', async ({ page, inventoryPage , cartPage, checkoutInformationPage,  checkoutOverviewPage, confirmationPage,}) => {
+test('User attempts checkout with empty cart @regression', async ({ page, inventoryPage , cartPage, checkoutInformationPage,  checkoutOverviewPage, confirmationPage,}) => {
   await inventoryPage.goToCart();
   await expect(page).toHaveURL(URLS.cart);
   await cartPage.proceedToCheckout();
@@ -119,7 +119,4 @@ test('User attempts checkout with empty cart', async ({ page, inventoryPage , ca
 
   await checkoutOverviewPage.clickFinish();
   await expect(confirmationPage.getConfirmationMessage()).toBeVisible();
-  
-
-  
 });
